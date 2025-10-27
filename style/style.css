@@ -1,0 +1,69 @@
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+  }
+
+  #contas {
+    font-size: 24px;
+    margin: 10px;
+    font-weight: bold;
+  }
+
+  #result {
+    margin-top: 20px;
+  }
+
+  #certoerrado p {
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    width: 200px;
+  }
+
+  #certoerrado p[style*="green"] {
+    background-color: green;
+  }
+
+  #certoerrado p[style*="red"] {
+    background-color: red;
+  }
+  #pontos{
+    display: none;
+    flex-flow: rows;
+    position: fixed;
+    right: 25px;
+    top: 5px;
+    gap: 10px;
+    font-weight: bold;
+  }
+  #lifes{
+    display: none;
+    flex-flow: rows;
+    position: fixed;
+    left: 25px;
+    top: 5px;
+    gap: 10px;
+    font-weight: bold;
+  }
