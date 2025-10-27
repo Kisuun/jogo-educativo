@@ -18,6 +18,15 @@ function menosvida(){
 if (Number(vidas===0)){
     vida1.style.display="none";
   }
+  if (Number(vidas===0)){
+    derrota();
+  }
+
+  else{
+    vida3.style.display="block";
+    vida2.style.display="block";
+    vida1.style.display="block";
+  }
 }
 
 function start(){
@@ -33,6 +42,12 @@ function start(){
   menosvida();
   mandar();
 }
+
+function derrota(){
+    document.getElementById("pop-perdeu").style.display ="flex";
+    pontos = 0;
+}
+
 function checar(botao){
   if(Number(botao.innerText) === respostaC){
     document.getElementById("certoerrado").innerHTML = `<p style= "background-color: green;"> certa resposta</p>`;
@@ -88,4 +103,13 @@ botoes.forEach((botao)=>{
 })
 
 Divresult.append(...botoes);
+}
+
+function restart(){
+    document.getElementById("pop-perdeu").style.display = "none"
+    pontos = 0;
+    vidas = 3;
+    menosvida();
+    start();
+
 }
