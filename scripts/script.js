@@ -4,30 +4,7 @@ let respostaC;
 let pontos = 0;
 let vidas = 3;
 
-function menosvida(){
-  const vida1 = document.getElementById("v1");
-  const vida2 = document.getElementById("v2");
-  const vida3 = document.getElementById("v3");
-  
-  if (Number(vidas===2)){
-    vida3.style.display="none";
-  }
-  if (Number(vidas===1)){
-    vida2.style.display="none";
-  }
-if (Number(vidas===0)){
-    vida1.style.display="none";
-  }
-  if (Number(vidas===0)){
-    derrota();
-  }
 
-  if(vidas === 3){
-    vida3.style.display="block";
-    vida2.style.display="block";
-    vida1.style.display="block";
-  }
-}
 
 function start(){
   document.getElementById("start").style.display = "none";
@@ -104,6 +81,31 @@ botoes.forEach((botao)=>{
 })
 
 Divresult.append(...botoes);
+}
+
+function menosvida(){
+  const vida1 = document.getElementById("v1");
+  const vida2 = document.getElementById("v2");
+  const vida3 = document.getElementById("v3");
+  
+  if (Number(vidas===2)){
+    vida3.style.display="none";
+  }
+  if (Number(vidas===1)){
+    vida2.style.display="none";
+  }
+if (vidas <= 0){
+    vida1.style.display="none";
+  }
+  if (vidas <= 0){
+    derrota();
+  }
+
+  if(Number(vidas === 3)){
+    vida3.style.display="block";
+    vida2.style.display="block";
+    vida1.style.display="block";
+  }
 }
 
 function restart(){

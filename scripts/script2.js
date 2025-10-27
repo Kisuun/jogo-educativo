@@ -16,6 +16,7 @@ sim = simbolo[0];
 
 
 function start(){
+sinalr();
   document.getElementById("start").style.display = "none";
   document.getElementById("certoerrado").innerHTML = "";
   n1 = Math.floor(Math.random() * 16);
@@ -28,7 +29,6 @@ function start(){
   document.getElementById("lifes").style.display="flex" ;
   menosvida();
   mandar();
-  sinalr();
   console.log(vidas);
 }
 
@@ -102,6 +102,7 @@ Divresult.append(...botoes);
   while(n1 < n2){
   n1 = Math.floor(Math.random() * 16);
   n2 = Math.floor(Math.random() * 16);
+  respostaC = n1 + n2;
   respostaE1 = respostaC - r1;
   respostaE2 = respostaC - r2;
 
@@ -152,10 +153,10 @@ function menosvida(){
   if (Number(vidas===1)){
     vida2.style.display="none";
   }
-if (Number(vidas===0)){
+if (vidas <= 0){
     vida1.style.display="none";
   }
-  if (Number(vidas===0)){
+  if (vidas <=0){
     derrota();
   }
 
