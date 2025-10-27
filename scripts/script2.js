@@ -99,15 +99,23 @@ Divresult.append(...botoes);
   let respostaE1 = respostaC - r1;
   let respostaE2 = n1 - r1 - r2;
 
-  while(n1 < n2){
+  while(respostaC < 0
+  ){
   n1 = Math.floor(Math.random() * 16);
   n2 = Math.floor(Math.random() * 16);
-  respostaC = n1 + n2;
   respostaE1 = respostaC - r1;
   respostaE2 = respostaC - r2;
 
   }
-  
+
+
+  while(n1 <= n2){
+  n1 = Math.floor(Math.random() * 16);
+  n2 = Math.floor(Math.random() * 16);
+  respostaE1 = respostaC - r1;
+  respostaE2 = respostaC - r2;
+
+  }
   while(respostaC === respostaE1 || respostaC === respostaE2 || respostaE1 === respostaE2){
   r1 = Math.floor(Math.random() * 16);
   r2 = Math.floor(Math.random() * 16);
