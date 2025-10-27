@@ -16,6 +16,7 @@ sim = simbolo[0];
 
 
 function start(){
+  document.getElementById("start").style.display = "none";
   document.getElementById("certoerrado").innerHTML = "";
   n1 = Math.floor(Math.random() * 16);
   n2 = Math.floor(Math.random() * 16);

@@ -22,7 +22,7 @@ if (Number(vidas===0)){
     derrota();
   }
 
-  else{
+  if(vidas === 3){
     vida3.style.display="block";
     vida2.style.display="block";
     vida1.style.display="block";
@@ -30,6 +30,7 @@ if (Number(vidas===0)){
 }
 
 function start(){
+  document.getElementById("start").style.display = "none";
   document.getElementById("certoerrado").innerHTML = "";
   n1 = Math.floor(Math.random() * 11);
   n2 = Math.floor(Math.random() * 11);
