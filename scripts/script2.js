@@ -1,4 +1,4 @@
-let n1,n2;
+let n1,n2,n3;
 let r1,r2;
 let respostaC;
 let pontos = 0;
@@ -37,24 +37,22 @@ function derrota(){
     pontos = 0;
 }
 
-function checar(botao){
-  if(Number(botao.innerText) === respostaC){
-    document.getElementById("certoerrado").innerHTML = `<p style= "background-color: green;"> certa resposta</p>`;
+function checar(botao) {
+  if (bloqueado) return;
+  bloqueado = true;
+
+  if (Number(botao.innerText) === respostaC) {
+    document.getElementById("certoerrado").innerHTML = `<p style="background-color: green;"> certa resposta</p>`;
     pontos += 1;
-    setTimeout(() => {
-      start();
-    },1000)
-  }
-  else{
-    document.getElementById("certoerrado").innerHTML = `<p style= "background-color: red;"> resposta errada</p>`;
+  } else {
+    document.getElementById("certoerrado").innerHTML = `<p style="background-color: red;"> resposta errada</p>`;
     vidas -= 1;
-    setTimeout(() => {
-      start();
-    },1000)
-    
   }
-    
-    
+
+  setTimeout(() => {
+    bloqueado = false;
+    start();
+  }, 1000);
 }
 
 function mandar(){
@@ -94,59 +92,44 @@ botoes.forEach((botao)=>{
 
 Divresult.append(...botoes);
     }
-        if (sim === "-"){
-  respostaC = n1 - n2;
-  let respostaE1 = respostaC - r1;
-  let respostaE2 = n1 - r1 - r2;
+ if (sim === "-") {
+    if (n1 < n2) {
+      let temp = n1;
+      n1 = n2;
+      n2 = temp;
+    }
 
-  while(respostaC < 0
-  ){
-  n1 = Math.floor(Math.random() * 16);
-  n2 = Math.floor(Math.random() * 16);
-  respostaE1 = respostaC - r1;
-  respostaE2 = respostaC - r2;
+    respostaC = n1 - n2;
+    let respostaE1 = respostaC - r1;
+    let respostaE2 = respostaC - r2;
 
+    let tentativas = 0;
+    while (
+      (respostaC === respostaE1 ||
+        respostaC === respostaE2 ||
+        respostaE1 === respostaE2) &&
+      tentativas < 20
+    ) {
+      r1 = Math.floor(Math.random() * 16);
+      r2 = Math.floor(Math.random() * 16);
+      respostaE1 = respostaC - r1;
+      respostaE2 = respostaC - r2;
+      tentativas++;
+    }
+
+    document.getElementById("contas").innerText = `${n1} - ${n2}`;
+
+    const botoes = [respostaC, respostaE1, respostaE2].sort(
+      () => Math.random() - 0.5
+    );
+
+    botoes.forEach((valor) => {
+      const botao = document.createElement("button");
+      botao.innerText = valor;
+      botao.onclick = () => checar(botao);
+      Divresult.appendChild(botao);
+    });
   }
-
-
-  while(n1 <= n2){
-  n1 = Math.floor(Math.random() * 16);
-  n2 = Math.floor(Math.random() * 16);
-  respostaE1 = respostaC - r1;
-  respostaE2 = respostaC - r2;
-
-  }
-  while(respostaC === respostaE1 || respostaC === respostaE2 || respostaE1 === respostaE2){
-  r1 = Math.floor(Math.random() * 16);
-  r2 = Math.floor(Math.random() * 16);
-  respostaE1 = respostaC - r1;
-  respostaE2 = respostaC - r2;
-}
- 
- const Divresult = document.getElementById("result");
- Divresult.innerHTML = "";
-
-const resultado1 = document.createElement("button");
-const resultado2 = document.createElement("button");
-const resultado3 = document.createElement("button");
-
-if (respostaC != respostaE1 && respostaC != respostaE2){
-resultado1.innerHTML = respostaC;
-resultado2.innerHTML = respostaE1;
-resultado3.innerHTML = respostaE2;}
-
-
-const botoes = [resultado1, resultado2, resultado3];
-
-botoes.sort(() => Math.random() -0.5);
-
-botoes.forEach((botao)=>{
-  botao.onclick = () => checar(botao)
-  
-})
-
-Divresult.append(...botoes);
-}
 }
 
 
