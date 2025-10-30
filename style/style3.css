@@ -98,3 +98,61 @@
     height: 50px;
     
   }
+  
+ #pop-proximo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #6a5acd, #9370db);
+  color: white;
+  text-align: center;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  z-index: 999;
+  display: none; /* deixa escondido até ativar */
+  animation: aparecer 0.6s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+#pop-proximo h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.proximo {
+  background-color: #fff;
+  color: #6a5acd;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.proximo:hover {
+  background-color: #6a5acd;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+  transform: scale(1.05);
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.proximo a{
+  text-decoration: none;
+}

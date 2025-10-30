@@ -19,6 +19,7 @@ function start(){
   document.getElementById("lifes").style.display="flex" ;
   menosvida();
   mandar();
+  maximo();
 }
 
 function derrota(){
@@ -115,4 +116,10 @@ function restart(){
     menosvida();
     start();
 
+}
+
+function maximo(){
+  if(pontos === 10){
+    document.getElementById("pop-proximo").style.display= "block";
+  }
 }

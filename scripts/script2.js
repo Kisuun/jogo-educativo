@@ -1,51 +1,57 @@
-let n1,n2,n3;
-let r1,r2;
+let n1, n2;
+let r1, r2;
 let respostaC;
 let pontos = 0;
 let vidas = 3;
+let bloqueado = false;
+
 const sinais = ["-", "+"];
-let simbolo;
 let sim = "-";
 
 
-function sinalr(){
-simbolo = sinais.sort(() => Math.random() -0.5);
-sim = simbolo[0];
-
+function sinalr() {
+  sim = sinais[Math.floor(Math.random() * sinais.length)];
 }
 
 
-function start(){
-sinalr();
+function start() {
+  sinalr();
   document.getElementById("start").style.display = "none";
   document.getElementById("certoerrado").innerHTML = "";
+  
   n1 = Math.floor(Math.random() * 16);
   n2 = Math.floor(Math.random() * 16);
   r1 = Math.floor(Math.random() * 16);
   r2 = Math.floor(Math.random() * 16);
-  document.getElementById("contas").innerText = `${n1} ${sim} ${n2}` ;
+
+  document.getElementById("contas").innerText = `${n1} ${sim} ${n2}`;
   document.getElementById("score").innerText = pontos;
-  document.getElementById("pontos").style.display="flex" ;
-  document.getElementById("lifes").style.display="flex" ;
+  document.getElementById("pontos").style.display = "flex";
+  document.getElementById("lifes").style.display = "flex";
+
   menosvida();
   mandar();
-  console.log(vidas);
+  maximo();
 }
 
-function derrota(){
-    document.getElementById("pop-perdeu").style.display ="flex";
-    pontos = 0;
+
+function derrota() {
+  document.getElementById("pop-perdeu").style.display = "flex";
+  pontos = 0;
 }
+
 
 function checar(botao) {
   if (bloqueado) return;
   bloqueado = true;
 
   if (Number(botao.innerText) === respostaC) {
-    document.getElementById("certoerrado").innerHTML = `<p style="background-color: green;"> certa resposta</p>`;
+    document.getElementById("certoerrado").innerHTML =
+      `<p style="background-color: green;">certa resposta</p>`;
     pontos += 1;
   } else {
-    document.getElementById("certoerrado").innerHTML = `<p style="background-color: red;"> resposta errada</p>`;
+    document.getElementById("certoerrado").innerHTML =
+      `<p style="background-color: red;">resposta errada</p>`;
     vidas -= 1;
   }
 
@@ -55,117 +61,76 @@ function checar(botao) {
   }, 1000);
 }
 
-function mandar(){
-    if (sim === "+"){
-  respostaC = n1 + n2;
-  let respostaE1 = respostaC + r1;
-  let respostaE2 = n1 + r1 + r2;
-  
-  while(respostaC === respostaE1 || respostaC === respostaE2 || respostaE1 === respostaE2){
-  r1 = Math.floor(Math.random() * 16);
-  r2 = Math.floor(Math.random() * 16);
-  respostaE1 = respostaC + r1;
-  respostaE2 = n1 + r1 + r2;
-}
- 
- const Divresult = document.getElementById("result");
- Divresult.innerHTML = "";
 
-const resultado1 = document.createElement("button");
-const resultado2 = document.createElement("button");
-const resultado3 = document.createElement("button");
+function mandar() {
+  const Divresult = document.getElementById("result");
+  Divresult.innerHTML = "";
 
-if (respostaC != respostaE1 && respostaC != respostaE2){
-resultado1.innerHTML = respostaC;
-resultado2.innerHTML = respostaE1;
-resultado3.innerHTML = respostaE2;}
+  if (sim === "+") {
+    respostaC = n1 + n2;
+    let respostaE1 = respostaC + r1;
+    let respostaE2 = n1 + r1 + r2;
 
+    // evita respostas repetidas
+    if (respostaE1 === respostaC) respostaE1 += 1;
+    if (respostaE2 === respostaC || respostaE2 === respostaE1) respostaE2 += 2;
 
-const botoes = [resultado1, resultado2, resultado3];
+    criarBotoes([respostaC, respostaE1, respostaE2], Divresult);
+  }
 
-botoes.sort(() => Math.random() -0.5);
-
-botoes.forEach((botao)=>{
-  botao.onclick = () => checar(botao)
-  
-})
-
-Divresult.append(...botoes);
-    }
- if (sim === "-") {
+  if (sim === "-") {
     if (n1 < n2) {
-      let temp = n1;
-      n1 = n2;
-      n2 = temp;
+      [n1, n2] = [n2, n1]; // troca
     }
 
     respostaC = n1 - n2;
     let respostaE1 = respostaC - r1;
     let respostaE2 = respostaC - r2;
 
-    let tentativas = 0;
-    while (
-      (respostaC === respostaE1 ||
-        respostaC === respostaE2 ||
-        respostaE1 === respostaE2) &&
-      tentativas < 20
-    ) {
-      r1 = Math.floor(Math.random() * 16);
-      r2 = Math.floor(Math.random() * 16);
-      respostaE1 = respostaC - r1;
-      respostaE2 = respostaC - r2;
-      tentativas++;
-    }
+    // garante números distintos
+    if (respostaE1 === respostaC) respostaE1 += 1;
+    if (respostaE2 === respostaC || respostaE2 === respostaE1) respostaE2 += 2;
 
     document.getElementById("contas").innerText = `${n1} - ${n2}`;
-
-    const botoes = [respostaC, respostaE1, respostaE2].sort(
-      () => Math.random() - 0.5
-    );
-
-    botoes.forEach((valor) => {
-      const botao = document.createElement("button");
-      botao.innerText = valor;
-      botao.onclick = () => checar(botao);
-      Divresult.appendChild(botao);
-    });
+    criarBotoes([respostaC, respostaE1, respostaE2], Divresult);
   }
 }
 
 
-function menosvida(){
+function criarBotoes(array, container) {
+  array.sort(() => Math.random() - 0.5);
+  array.forEach((valor) => {
+    const botao = document.createElement("button");
+    botao.innerText = valor;
+    botao.onclick = () => checar(botao);
+    container.appendChild(botao);
+  });
+}
+
+
+function menosvida() {
   const vida1 = document.getElementById("v1");
   const vida2 = document.getElementById("v2");
   const vida3 = document.getElementById("v3");
-  
-  if (Number(vidas===2)){
-    vida3.style.display="none";
-  }
-  if (Number(vidas===1)){
-    vida2.style.display="none";
-  }
-if (vidas <= 0){
-    vida1.style.display="none";
-  }
-  if (vidas <=0){
-    derrota();
-  }
 
-  if(vidas === 3){
-    vida3.style.display="block";
-    vida2.style.display="block";
-    vida1.style.display="block";
-  }
+  vida1.style.display = vidas >= 1 ? "block" : "none";
+  vida2.style.display = vidas >= 2 ? "block" : "none";
+  vida3.style.display = vidas === 3 ? "block" : "none";
+
+  if (vidas <= 0) derrota();
 }
 
 
+function restart() {
+  document.getElementById("pop-perdeu").style.display = "none";
+  pontos = 0;
+  vidas = 3;
+  menosvida();
+  start();
+}
 
-
-function restart(){
-    document.getElementById("pop-perdeu").style.display = "none"
-    pontos = 0;
-    vidas = 3;
-    menosvida();
-    start();
-
+function maximo(){
+  if(pontos === 10){
+    document.getElementById("pop-proximo").style.display= "block";
+  }
 }
